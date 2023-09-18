@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Library</title>
+    <title>Проект: Библиотека</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,6 +14,59 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
+    <header class="header">
+      <div class="con">
+        <h1 class="title">Библиотека</h1>
+        <button class="new"></button>
+      </div>
+    </header>
+    <main class="library con">
+      <div class="book">
+        <h2 class="name">Интеллектуальный Дизайн</h2>
+        <p class="author">Уильям Дембски</p>
+        <p class="pages" data-pages="123">Страниц:</p>
+        <button class="close"></button>
+        <button class="read">Завершить</button>
+      </div>
+      <div class="book">
+        <h2 class="name">Интеллектуальный Дизайн</h2>
+        <p class="author">Уильям Дембски</p>
+        <p class="pages" data-pages="123">Страниц:</p>
+        <button class="close"></button>
+        <button class="read">Завершить</button>
+      </div>
+      <div class="book">
+        <h2 class="name">Интеллектуальный Дизайн</h2>
+        <p class="author">Уильям Дембски</p>
+        <p class="pages" data-pages="123">Страниц:</p>
+        <button class="close"></button>
+        <button class="read">Завершить</button>
+      </div>
+      <div class="book">
+        <h2 class="name">Интеллектуальный Дизайн</h2>
+        <p class="author">Уильям Дембски</p>
+        <p class="pages" data-pages="123">Страниц:</p>
+        <button class="close"></button>
+        <button class="read">Завершить</button>
+      </div>
+      <div class="book">
+        <h2 class="name">Интеллектуальный Дизайн</h2>
+        <p class="author">Уильям Дембски</p>
+        <p class="pages" data-after="123">Страниц:</p>
+        <button class="close"></button>
+        <button class="read">Завершить</button>
+      </div>
+    </main>
+    <div id="delete" class="modal">
+      <div class="body">
+        <h2 class="name">Вы хотите удалить?</h2>
+        <p class="subbook" data-after="Интеллектуальный Дизайн">Книга:</p>
+        <div class="btns">
+          <button class="btn" data-role="close">Отмена</button>
+          <button class="btn" data-role="delete">Удалить</button>
+        </div>
+      </div>
+    </div>
     <script src="./assets/js/script.js" defer></script>
   </body>
 </html>

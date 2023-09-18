@@ -1,21 +1,229 @@
 :root {
-  --base: #fbc936;
-  --panel: #2a2a2a;
-  --grey: #626262;
-  --bg: #212121;
-  --shadow: #0000002b;
-  --txt: #fff;
+  --base: #1976d2;
+  --panel: #171717;
+  --grey: #222223;
+  --bg: #121212;
+  --shadow: rgba(0, 0, 0, 0.7);
+  --txt: #f5f5f5;
+  --txt-grey: #787878;
+  --stop: #fc566c;
+  --ok: #06aa5e;
 }
 
 body {
   font-family: "Teko", sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100vw;
-  min-height: 100vh;
   background-color: var(--bg);
   color: var(--txt);
   overflow-x: hidden;
   user-select: none;
+}
+
+.con {
+  max-width: 1320px;
+  width: 100%;
+  padding-inline: 15px;
+  margin-inline: auto;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: var(--panel);
+  padding-block: 10px;
+  z-index: 1;
+}
+
+.header .con {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.header .title {
+  font-size: 32px;
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.new,
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--size);
+  height: var(--size);
+  background-color: transparent;
+}
+
+.new {
+  --size: 32px;
+  position: relative;
+  color: var(--base);
+  border: 2px solid var(--base);
+  border-radius: var(--size);
+}
+
+.new::before,
+.new::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 64%;
+  height: 2px;
+  background-color: currentColor;
+}
+
+.new::before {
+  rotate: 90deg;
+}
+
+.new:hover {
+  background-color: var(--base);
+  color: var(--txt);
+}
+
+.close {
+  --size: 24px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--stop);
+  border: none;
+}
+
+.close::before,
+.close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.close::before {
+  rotate: 45deg;
+}
+
+.close::after {
+  rotate: -45deg;
+}
+
+.close:hover {
+  background-color: var(--stop);
+  color: var(--txt);
+}
+
+.read {
+  width: 100%;
+  text-align: center;
+  background-color: var(--base);
+  color: var(--txt);
+  padding: 10px 24px;
+  margin-top: 24px;
+}
+
+.read:hover {
+  background-color: var(--ok);
+}
+
+.library {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-block: 64px;
+}
+
+.book {
+  position: relative;
+  flex-direction: column;
+  display: flex;
+  background-color: var(--grey);
+  border-radius: 20px;
+  padding: 48px 24px 24px;
+}
+
+.book .name {
+  font-size: 24px;
+  margin-block: 0 8px;
+}
+
+.book .author {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.66;
+  margin-bottom: 8px;
+}
+
+.book .pages {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--txt-grey);
+  margin-top: auto;
+}
+
+[data-after]::after {
+  content: " " attr(data-after);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  padding: 32px;
+  background-color: var(--shadow);
+}
+
+.modal .body {
+  max-width: 320px;
+  width: 100%;
+  background-color: var(--grey);
+  color: var(--txt-grey);
+  padding: 32px;
+  border-radius: 20px;
+}
+
+.modal .name {
+  margin-block: 0 24px;
+}
+
+.btns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.btn {
+  width: 100%;
+  text-align: center;
+  background-color: var(--base);
+  color: var(--txt);
+  padding: 10px 24px;
+}
+
+.btn:hover {
+  background-color: var(--ok);
+}
+
+.btn[data-role="delete"]:not(:hover) {
+  background-color: var(--stop);
 }
