@@ -190,6 +190,13 @@ button {
   overflow: hidden;
   padding: 32px;
   background-color: var(--shadow);
+  user-select: none;
+  transition: 0.5s opacity;
+}
+
+.modal:not(.active) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .modal .body {
@@ -202,7 +209,16 @@ button {
 }
 
 .modal .name {
+  text-align: center;
   margin-block: 0 24px;
+}
+
+.subbook {
+  text-align: center;
+}
+
+.subbook[data-after]:after {
+  color: var(--base);
 }
 
 .btns {
@@ -226,4 +242,19 @@ button {
 
 .btn[data-role="delete"]:not(:hover) {
   background-color: var(--stop);
+}
+
+.modal form {
+  flex-direction: column;
+  display: flex;
+}
+
+.modal form input {
+  width: auto;
+  background-color: transparent;
+  color: var(--txt);
+  border: 1px var(--txt-grey) solid;
+  border-radius: 4px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
 }

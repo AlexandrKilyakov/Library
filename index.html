@@ -57,7 +57,7 @@
         <button class="read">Завершить</button>
       </div>
     </main>
-    <div id="delete" class="modal">
+    <div id="delete" class="modal active">
       <div class="body">
         <h2 class="name">Вы хотите удалить?</h2>
         <p class="subbook" data-after="Интеллектуальный Дизайн">Книга:</p>
@@ -65,6 +65,24 @@
           <button class="btn" data-role="close">Отмена</button>
           <button class="btn" data-role="delete">Удалить</button>
         </div>
+      </div>
+    </div>
+    <div id="insert" class="modal">
+      <div class="body">
+        <h2 class="name">Добавить книгу</h2>
+        <form>
+          <input type="text" name="name" placeholder="Название" />
+          <input type="text" name="author" placeholder="Автор" />
+          <input type="text" name="pages" placeholder="Кол-во страниц" />
+          <label>
+            <input type="checkbox" name="read" />
+            Прочитана?
+          </label>
+          <div class="btns">
+            <button type="button" class="btn" data-role="close">Отмена</button>
+            <button class="btn" data-role="insert">Добавить</button>
+          </div>
+        </form>
       </div>
     </div>
     <script src="./assets/js/script.js" defer></script>
