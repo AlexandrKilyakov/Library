@@ -20,43 +20,7 @@
         <button class="new"></button>
       </div>
     </header>
-    <main class="library con">
-      <div class="book">
-        <h2 class="name">Интеллектуальный Дизайн 1</h2>
-        <p class="author">Уильям Дембски</p>
-        <p class="pages" data-pages="123">Страниц:</p>
-        <button class="close"></button>
-        <button class="read">Завершить</button>
-      </div>
-      <div class="book">
-        <h2 class="name">Интеллектуальный Дизайн 2</h2>
-        <p class="author">Уильям Дембски</p>
-        <p class="pages" data-pages="123">Страниц:</p>
-        <button class="close"></button>
-        <button class="read">Завершить</button>
-      </div>
-      <div class="book">
-        <h2 class="name">Интеллектуальный Дизайн 3</h2>
-        <p class="author">Уильям Дембски</p>
-        <p class="pages" data-pages="123">Страниц:</p>
-        <button class="close"></button>
-        <button class="read">Завершить</button>
-      </div>
-      <div class="book">
-        <h2 class="name">Интеллектуальный Дизайн 4</h2>
-        <p class="author">Уильям Дембски</p>
-        <p class="pages" data-pages="123">Страниц:</p>
-        <button class="close"></button>
-        <button class="read">Завершить</button>
-      </div>
-      <div class="book">
-        <h2 class="name">Интеллектуальный Дизайн 5</h2>
-        <p class="author">Уильям Дембски</p>
-        <p class="pages" data-after="123">Страниц:</p>
-        <button class="close"></button>
-        <button class="read">Завершить</button>
-      </div>
-    </main>
+    <main class="library con" data-library></main>
     <div id="delete" class="modal">
       <div class="body">
         <h2 class="name">Вы хотите удалить?</h2>
@@ -73,7 +37,7 @@
         <form>
           <input type="text" name="name" placeholder="Название" />
           <input type="text" name="author" placeholder="Автор" />
-          <input type="text" name="pages" placeholder="Кол-во страниц" />
+          <input type="number" name="pages" placeholder="Кол-во страниц" />
           <label>
             <input type="checkbox" name="read" />
             Прочитана?

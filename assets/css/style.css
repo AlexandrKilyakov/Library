@@ -154,6 +154,14 @@ button {
   padding: 48px 24px 24px;
 }
 
+.book.done {
+  background-color: var(--panel);
+}
+
+.book.done .read {
+  display: none;
+}
+
 .book .name {
   font-size: 24px;
   margin-block: 0 8px;
