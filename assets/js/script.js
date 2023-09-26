@@ -73,7 +73,11 @@ function btnCloseModal(btn, modal) {
 
 function closeModal(modal) {
   const form = modal.querySelector("form");
-  form.reset();
+
+  if (form) {
+    form.reset();
+  }
+
   modal.classList.remove(active);
 }
 
@@ -90,7 +94,7 @@ function insertBook(e) {
 }
 
 function deleteBook(id) {
-  myLibrary[~~id].removeBook();
+  myLibrary[~~id.split("_")[1]].removeBook();
   closeModal(modalDelete);
 }
 
@@ -109,7 +113,6 @@ function Book(name, author, pages, read = false) {
   this.id = myLibrary.length;
 }
 
-// Провести эксперимент со стрелочной функцией
 Book.prototype.getInfo = function () {
   return [this.name, this.author, this.pages, this.read];
 };
@@ -144,17 +147,6 @@ Book.prototype.removeBook = function () {
   book.remove();
 
   myLibrary[this.id] = null;
-  myLibrary = myLibrary.filter((item) => item != null);
-
-  for (let i = this.id; i < myLibrary.length; i++) {
-    myLibrary[this.id][id] = i;
-
-    const tmp = books.querySelector(`[data-id=${prefix}${i + 1}]`);
-
-    if (tmp) {
-      tmp.dataset.id = prefix + i;
-    }
-  }
 
   console.log(myLibrary);
 };
@@ -173,3 +165,53 @@ Book.prototype.updateBook = function (name, author, pages, read) {
     book.classList.remove("done");
   }
 };
+
+function start() {
+  addBookToLibrary("Непрерывное развёртывание ПО", "Хамбл, Фарли", "123", true);
+  addBookToLibrary("Алгоритмы на Java", "Уэйн, Седжвик", "123");
+  addBookToLibrary("Сам себе программист", "Кори Альтхофф", "123", true);
+  addBookToLibrary(
+    "Кодеры за работой. Размышления о ремесле программиста ",
+    "Питер Сейбел",
+    "123"
+  );
+  addBookToLibrary(
+    "Предметно-ориентированное проектирование. Структуризация сложных программных систем",
+    "Эрик Эванс",
+    "123"
+  );
+  addBookToLibrary("Искусство программирования", "Дональд Кнут", "123", true);
+  addBookToLibrary(
+    "Структура и интерпретация компьютерных программ",
+    "Абельсон, Сассман",
+    "123"
+  );
+  addBookToLibrary(
+    "Шаблоны корпоративных приложений",
+    "Мартин Фаулер",
+    "123",
+    true
+  );
+  addBookToLibrary("Жемчужины программирования", "Джон Бентли", "123");
+  addBookToLibrary(
+    "Человеческий фактор. Успешные проекты и команды",
+    "ДеМарко, Листер",
+    "123"
+  );
+  addBookToLibrary(
+    "Head First. Паттерны проектирования",
+    "Фримен, Робсон",
+    "123",
+    true
+  );
+  addBookToLibrary(
+    "Рефакторинг. Улучшение проекта существующего кода",
+    "Фаулер, Кент",
+    "123"
+  );
+  addBookToLibrary("Совершенный код", "Стив Макконелл", "123", true);
+  addBookToLibrary("Чистый код", "Роберт Мартин", "123");
+  addBookToLibrary("Программист-прагматик ", "Томас, Хант", "123", true);
+}
+
+start();
