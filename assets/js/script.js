@@ -23,12 +23,16 @@ library.addEventListener("click", ({ target }) => {
   const book = target.closest(".book");
   const btnClose = target.closest(".close");
   const btnRead = target.closest(".read");
+  const btnUpdate = target.closest(".update");
 
   if (!book) return;
 
+  const id = target.closest("[data-id]");
+
   const name = book.querySelector(".name");
 
-  const btnDelete = modalDelete.querySelector("[data-role='delete']");
+  const roleDelete = modalDelete.querySelector("[data-role='delete']");
+  const roleUpdate = modalInsert.querySelector("[data-role='update']");
 
   if (btnClose) {
     const subbook = modalDelete.querySelector(".subbook");
@@ -37,18 +41,60 @@ library.addEventListener("click", ({ target }) => {
       subbook.dataset.after = name.textContent;
     }
 
-    if (btnDelete) {
-      const id = target.closest("[data-id]");
-      btnDelete.dataset.id = id.dataset.id;
+    if (roleDelete) {
+      roleDelete.dataset.id = id.dataset.id;
     }
 
     modalDelete.classList.add(active);
   } else if (btnRead) {
     myLibrary[getId(book.dataset.id)].doneBook(true);
+  } else if (btnUpdate) {
+    const info = myLibrary[getId(book.dataset.id)].getInfo();
+
+    formReset(modalInsert);
+
+    if (roleUpdate) {
+      roleUpdate.dataset.id = id.dataset.id;
+    }
+
+    const btnInsert = modalInsert.querySelector("[data-role='insert']");
+    const btnUpdate = modalInsert.querySelector("[data-role='update']");
+
+    if (!btnInsert.classList.contains("hide")) {
+      btnInsert.classList.add("hide");
+    }
+
+    if (btnUpdate.classList.contains("hide")) {
+      btnUpdate.classList.remove("hide");
+    }
+
+    const name = modalInsert.querySelector("input[name='name']");
+    const author = modalInsert.querySelector("input[name='author']");
+    const pages = modalInsert.querySelector("input[name='pages']");
+    const read = modalInsert.querySelector("input[name='read']");
+
+    name.value = info.name;
+    author.value = info.author;
+    pages.value = info.pages;
+    read.checked = info.read;
+
+    modalInsert.classList.add(active);
   }
 });
 
 btnNew.addEventListener("click", () => {
+  const btnInsert = modalInsert.querySelector("[data-role='insert']");
+  const btnUpdate = modalInsert.querySelector("[data-role='update']");
+
+  if (!btnUpdate.classList.contains("hide")) {
+    btnUpdate.classList.add("hide");
+  }
+
+  if (btnInsert.classList.contains("hide")) {
+    btnInsert.classList.remove("hide");
+  }
+
+  formReset(modalInsert);
   modalInsert.classList.add(active);
 });
 
@@ -61,9 +107,33 @@ btnRole.forEach((btn) => {
     case "insert":
       btn.addEventListener("click", insertBook);
       break;
+    case "update":
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let target = e.target;
+
+        const name = modalInsert.querySelector("input[name='name']");
+        const author = modalInsert.querySelector("input[name='author']");
+        const pages = modalInsert.querySelector("input[name='pages']");
+        const read = modalInsert.querySelector("input[name='read']");
+
+        myLibrary[getId(target.dataset.id)].updateBook(
+          name.value,
+          author.value,
+          pages.value,
+          read.checked
+        );
+
+        closeModal(modalInsert);
+      });
+      break;
     case "delete":
-      btn.addEventListener("click", ({ target }) => {
-        deleteBook(target.dataset.id);
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        let target = e.target;
+
+        myLibrary[getId(target.dataset.id)].removeBook();
+        closeModal(modalDelete);
       });
       break;
   }
@@ -76,13 +146,17 @@ function btnCloseModal(btn, modal) {
 }
 
 function closeModal(modal) {
+  formReset(modal);
+
+  modal.classList.remove(active);
+}
+
+function formReset(modal) {
   const form = modal.querySelector("form");
 
   if (form) {
     form.reset();
   }
-
-  modal.classList.remove(active);
 }
 
 function insertBook(e) {
@@ -95,12 +169,6 @@ function insertBook(e) {
 
   addBookToLibrary(name.value, author.value, pages.value, read.checked);
   closeModal(modalInsert);
-}
-
-function deleteBook(id) {
-  console.log(id);
-  myLibrary[getId(id)].removeBook();
-  closeModal(modalDelete);
 }
 
 function getId(id) {
@@ -123,7 +191,12 @@ function Book(name, author, pages, read = false) {
 }
 
 Book.prototype.getInfo = function () {
-  return [this.name, this.author, this.pages, this.read];
+  return {
+    name: this.name,
+    author: this.author,
+    pages: this.pages,
+    read: this.read,
+  };
 };
 
 Book.prototype.createCart = function (name, author, pages) {
@@ -133,7 +206,10 @@ Book.prototype.createCart = function (name, author, pages) {
   cart.innerHTML += `<p class="author">${author}</p>`;
   cart.innerHTML += `<p class="pages" data-after="${pages}">Страниц:</p>`;
   cart.innerHTML += `<button class="close"></button>`;
-  cart.innerHTML += `<button class="read">Завершить</button>`;
+  cart.innerHTML += `<div class="btns">
+                        <button class="button update">Изменить</button>
+                        <button class="button read">Завершить</button>
+                      </div>`;
 
   return cart;
 };
@@ -156,20 +232,29 @@ Book.prototype.removeBook = function () {
   book.remove();
 
   myLibrary[this.id] = null;
-
-  console.log(myLibrary);
 };
 
 Book.prototype.updateBook = function (name, author, pages, read) {
-  myLibrary[this.id][name] = name;
-  myLibrary[this.id][author] = author;
-  myLibrary[this.id][pages] = pages;
-
+  myLibrary[this.id].name = name;
+  myLibrary[this.id].author = author;
+  myLibrary[this.id].pages = pages;
   this.doneBook(read);
+
+  const book = books.querySelector(`[data-id=${prefix}${this.id}]`);
+
+  if (book) {
+    const bookName = book.querySelector(".name");
+    const bookAuthor = book.querySelector(".author");
+    const bookPages = book.querySelector(".pages");
+
+    bookName.textContent = name;
+    bookAuthor.textContent = author;
+    bookPages.dataset.after = pages;
+  }
 };
 
 Book.prototype.doneBook = function (read) {
-  myLibrary[this.id][read] = read;
+  myLibrary[this.id].read = read;
 
   const book = books.querySelector(`[data-id=${prefix}${this.id}]`);
 

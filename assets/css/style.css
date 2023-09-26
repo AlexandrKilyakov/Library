@@ -26,6 +26,10 @@ body {
   margin-inline: auto;
 }
 
+.hide {
+  display: none !important;
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -125,7 +129,7 @@ button {
   color: var(--txt);
 }
 
-.read {
+.button {
   width: 100%;
   text-align: center;
   background-color: var(--base);
@@ -134,7 +138,11 @@ button {
   margin-top: 24px;
 }
 
-.read:hover {
+.button:hover {
+  background-color: var(--ok);
+}
+
+.read {
   background-color: var(--ok);
 }
 
