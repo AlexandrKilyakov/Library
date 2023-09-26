@@ -22,25 +22,27 @@ let myLibrary = [];
 library.addEventListener("click", ({ target }) => {
   const book = target.closest(".book");
   const btnClose = target.closest(".close");
+  const btnRead = target.closest(".read");
 
-  if (!book && !btnClose) return;
+  if (!book) return;
 
   const name = book.querySelector(".name");
 
-  const subbook = modalDelete.querySelector(".subbook");
   const btnDelete = modalDelete.querySelector("[data-role='delete']");
 
-  if (btnDelete) {
+  if (btnClose) {
+    const subbook = modalDelete.querySelector(".subbook");
+
+    if (subbook) {
+      subbook.dataset.after = name.textContent;
+    }
+
+    modalDelete.classList.add(active);
+  } else if (btnRead) {
+    myLibrary[getId(book.dataset.id)].doneBook(true);
+  } else if (btnDelete) {
     const id = target.closest("[data-id]");
     btnDelete.dataset.id = id.dataset.id;
-  }
-
-  if (subbook) {
-    subbook.dataset.after = name.textContent;
-  }
-
-  if (btnClose) {
-    modalDelete.classList.add(active);
   }
 });
 
@@ -94,8 +96,12 @@ function insertBook(e) {
 }
 
 function deleteBook(id) {
-  myLibrary[~~id.split("_")[1]].removeBook();
+  myLibrary[getId(id)].removeBook();
   closeModal(modalDelete);
+}
+
+function getId(id) {
+  return ~~id.split("_")[1];
 }
 
 function addBookToLibrary(name, author, pages, read) {
@@ -155,6 +161,11 @@ Book.prototype.updateBook = function (name, author, pages, read) {
   myLibrary[this.id][name] = name;
   myLibrary[this.id][author] = author;
   myLibrary[this.id][pages] = pages;
+
+  this.doneBook(read);
+};
+
+Book.prototype.doneBook = function (read) {
   myLibrary[this.id][read] = read;
 
   const book = books.querySelector(`[data-id=${prefix}${this.id}]`);
