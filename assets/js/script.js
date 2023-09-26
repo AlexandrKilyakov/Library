@@ -37,12 +37,14 @@ library.addEventListener("click", ({ target }) => {
       subbook.dataset.after = name.textContent;
     }
 
+    if (btnDelete) {
+      const id = target.closest("[data-id]");
+      btnDelete.dataset.id = id.dataset.id;
+    }
+
     modalDelete.classList.add(active);
   } else if (btnRead) {
     myLibrary[getId(book.dataset.id)].doneBook(true);
-  } else if (btnDelete) {
-    const id = target.closest("[data-id]");
-    btnDelete.dataset.id = id.dataset.id;
   }
 });
 
@@ -96,6 +98,7 @@ function insertBook(e) {
 }
 
 function deleteBook(id) {
+  console.log(id);
   myLibrary[getId(id)].removeBook();
   closeModal(modalDelete);
 }
